@@ -6,6 +6,7 @@ import androidx.room.Query;
 
 import java.util.List;
 
+// TODO: not using
 @Dao
 public interface ContactDao {
 

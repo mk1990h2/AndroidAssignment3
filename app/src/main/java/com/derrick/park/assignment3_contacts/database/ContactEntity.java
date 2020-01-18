@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+// TODO: not using
 @Entity(tableName = "contact_table")
 public class ContactEntity {
     public ContactEntity(String firstName, String lastName, String phone) {

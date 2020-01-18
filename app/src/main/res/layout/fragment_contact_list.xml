@@ -11,8 +11,8 @@
             android:id="@+id/contact_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scrollbars="vertical"
             android:layout_marginStart="10sp"
+            android:scrollbars="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/layout_contact_item" />
 

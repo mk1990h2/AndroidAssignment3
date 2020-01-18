@@ -5,6 +5,7 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
+// TODO: not using
 @Database(entities = ContactEntity.class, version = 1, exportSchema = false)
 public abstract class ContactDatabase extends RoomDatabase {
     private static ContactDatabase INSTANCE;

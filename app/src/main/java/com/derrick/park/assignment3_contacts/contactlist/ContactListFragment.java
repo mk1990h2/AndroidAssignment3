@@ -1,6 +1,7 @@
 package com.derrick.park.assignment3_contacts.contactlist;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,8 +10,10 @@ import android.widget.Button;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.derrick.park.assignment3_contacts.R;
@@ -34,7 +37,7 @@ public class ContactListFragment extends Fragment {
 
     private ContactListViewModel viewModel;
     private RecyclerView recyclerView;
-    private ArrayList<Contact> mContactList;
+    private RecyclerView.Adapter recyclerViewAdapter;
 
     public ContactListFragment() {
         // Required empty public constructor
@@ -49,28 +52,18 @@ public class ContactListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_contact_list, container, false);
         final MainActivity activity = (MainActivity) getActivity();
-        FragmentContactListBinding binding = FragmentContactListBinding.inflate(inflater);
-        binding.setLifecycleOwner(this);
+        View view = inflater.inflate(R.layout.fragment_contact_list, container, false);
 
-        Call<ContactList> call = ContactClient.getContacts(10);
-        call.enqueue(new Callback<ContactList>() {
+        recyclerView = view.findViewById(R.id.contact_list);
+        Observer<ArrayList<Contact>> contactListUpdateObserver = new Observer<ArrayList<Contact>>() {
             @Override
-            public void onResponse(Call<ContactList> call, Response<ContactList> response) {
-                if (response.isSuccessful()) {
-                    mContactList = response.body().getContactList();
-                    ArrayList<Contact> displayData = createDisplayData(mContactList);
-                    recyclerView = view.findViewById(R.id.contact_list);
-                    recyclerView.setAdapter(new ContactListAdapter(displayData));
-                }
+            public void onChanged(ArrayList<Contact> contacts) {
+                recyclerViewAdapter = new ContactListAdapter(contacts);
+                recyclerView.setAdapter(recyclerViewAdapter);
             }
-
-            @Override
-            public void onFailure(Call<ContactList> call, Throwable t) {
-                // Error Handling
-            }
-        });
+        };
+        viewModel.getContactList().observe(this, contactListUpdateObserver);
 
         Toolbar toolbar = activity.findViewById(R.id.toolbar);
         toolbar.setTitle("Contacts");
@@ -85,35 +78,5 @@ public class ContactListFragment extends Fragment {
         });
 
         return view;
-    }
-
-    private ArrayList<Contact> createDisplayData(ArrayList<Contact> contacts) {
-        Set<String> temp = new HashSet<>();
-
-        for (int i = 0; i < contacts.size() - 1; i++) {
-            String obj1 = Character.toString(contacts.get(i).getNameStr().charAt(0)).toUpperCase();
-            String obj2 = Character.toString(contacts.get(i + 1).getNameStr().charAt(0)).toUpperCase();
-            if (!obj1.equalsIgnoreCase(obj2)) {
-                temp.add(obj1);
-            }
-        }
-        for (String title : temp) {
-            Contact contact = new Contact(title);
-            contacts.add(contact);
-        }
-
-        Collections.sort(contacts, new Comparator<Contact>() {
-            @Override
-            public int compare(Contact c1, Contact c2) {
-                if (c1.getNameStr().equals(c2.getNameStr())) {
-                    return 0;
-                } else if (c1.getNameStr().compareTo(c2.getNameStr()) < 0) {
-                    return -1;
-                } else {
-                    return 1;
-                }
-            }
-        });
-        return contacts;
     }
 }

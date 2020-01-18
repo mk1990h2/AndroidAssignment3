@@ -40,13 +40,13 @@ public class Contact {
         return name;
     }
 
-//    public boolean setName(String name) {
-//        if (validateName(name)) {
-//            return false;
-//        }
-//        this.name = createName(name);
-//        return true;
-//    }
+    public boolean setName(String name) {
+        if (validateName(name)) {
+            return false;
+        }
+        this.name = createName(name);
+        return true;
+    }
 
     public String getNameStr() {
         return name != null ? name.toString() : "";
@@ -56,13 +56,13 @@ public class Contact {
         return cell;
     }
 
-//    public boolean setCell(String cell) {
-//        if (validateCell(cell)) {
-//            return false;
-//        }
-//        this.cell = cell;
-//        return true;
-//    }
+    public boolean setCell(String cell) {
+        if (validateCell(cell)) {
+            return false;
+        }
+        this.cell = cell;
+        return true;
+    }
 
     public boolean validateName(String name) {
         if (name == null || name.length() == 0) {

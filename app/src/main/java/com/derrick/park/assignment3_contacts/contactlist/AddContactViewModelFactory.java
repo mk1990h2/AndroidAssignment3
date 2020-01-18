@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.derrick.park.assignment3_contacts.database.ContactDao;
 
+// TODO: not using
 public class AddContactViewModelFactory implements ViewModelProvider.Factory {
     private ContactDao dataSource;
     private Application application;

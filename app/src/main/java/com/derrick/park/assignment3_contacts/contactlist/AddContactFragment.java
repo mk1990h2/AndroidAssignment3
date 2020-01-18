@@ -31,7 +31,6 @@ import java.util.regex.Pattern;
 
 
 public class AddContactFragment extends Fragment {
-//    private AddContactViewModel viewModel;
     private Button submit;
     private EditText nameText;
     private EditText cellText;
@@ -43,9 +42,6 @@ public class AddContactFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        ContactDao dataSource = ContactDatabase.getDatabase(getContext()).contactDao();
-//        AddContactViewModelFactory factory = new AddContactViewModelFactory(dataSource, getActivity().getApplication());
-//        viewModel = ViewModelProviders.of(this).get(AddContactViewModel.class);
     }
 
     @Override
@@ -67,14 +63,14 @@ public class AddContactFragment extends Fragment {
                 String name = nameText.getText().toString();
                 String phone = cellText.getText().toString();
                 Contact contact = new Contact();
-//                if (!contact.setName(name)) {
-//                    Toast.makeText(getContext(), "Invalid Name: Name must have first and last name.", Toast.LENGTH_LONG).show();
-//                    return;
-//                }
-//                if (!contact.setCell(phone)) {
-//                    Toast.makeText(getContext(), "Phone must be 10 digit.", Toast.LENGTH_LONG).show();
-//                    return;
-//                }
+                if (!contact.setName(name)) {
+                    Toast.makeText(getContext(), "Invalid Name: Name must have first and last name.", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                if (!contact.setCell(phone)) {
+                    Toast.makeText(getContext(), "Phone must be 10 digit.", Toast.LENGTH_LONG).show();
+                    return;
+                }
             }
         });
 
