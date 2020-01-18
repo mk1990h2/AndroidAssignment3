@@ -9,5 +9,14 @@
         android:id="@+id/contactListFragment"
         android:name="com.derrick.park.assignment3_contacts.contactlist.ContactListFragment"
         android:label="fragment_contact_list"
-        tools:layout="@layout/fragment_contact_list" />
+        tools:layout="@layout/fragment_contact_list" >
+        <action
+            android:id="@+id/action_contactListFragment_to_addContactFragment"
+            app:destination="@id/addContactFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addContactFragment"
+        android:name="com.derrick.park.assignment3_contacts.contactlist.AddContactFragment"
+        android:label="fragment_add_contact"
+        tools:layout="@layout/fragment_add_contact" />
 </navigation>

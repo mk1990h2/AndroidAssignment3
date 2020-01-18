@@ -1,5 +1,7 @@
 package com.derrick.park.assignment3_contacts.contactlist;
 
+import android.app.Application;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -21,17 +23,11 @@ public class ContactListViewModel extends ViewModel {
     }
 
     public void init() {
-        generateList();
         liveContactList.setValue(contactList);
     }
 
     public void add(Contact contact) {
         contactList.add(contact);
         liveContactList.setValue(contactList);
-    }
-
-    public void generateList() {
-        // TODO: test data
-        contactList.add(new Contact("aaa bbb", "000-000-0000"));
     }
 }

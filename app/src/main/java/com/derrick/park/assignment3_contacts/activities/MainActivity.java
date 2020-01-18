@@ -2,51 +2,40 @@ package com.derrick.park.assignment3_contacts.activities;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 
 import com.derrick.park.assignment3_contacts.R;
-import com.derrick.park.assignment3_contacts.models.Contact;
-import com.derrick.park.assignment3_contacts.models.ContactList;
-import com.derrick.park.assignment3_contacts.network.ContactClient;
-
-import java.util.ArrayList;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
-    private ArrayList<Contact> mContactList;
     public static final String TAG = MainActivity.class.getSimpleName();
+    private NavController navController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Call<ContactList> call = ContactClient.getContacts(10);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-        call.enqueue(new Callback<ContactList>() {
-            @Override
-            public void onResponse(Call<ContactList> call, Response<ContactList> response) {
-                if (response.isSuccessful()) {
-                     mContactList = response.body().getContactList();
-                     for(Contact contact: mContactList) {
-                         Log.d(TAG, "onResponse: " + mContactList.size());
-                         Log.d(TAG, "onResponse: " + contact);
-                     }
-                }
-            }
+        navController = Navigation.findNavController(this, R.id.nav_host_fragment);
 
-            @Override
-            public void onFailure(Call<ContactList> call, Throwable t) {
-                // Error Handling
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Contacts");
 
-            }
-        });
+        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
+        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
     }
 
-    public ArrayList<Contact> getmContactList() {
-        return mContactList;
+    @Override
+    public boolean onSupportNavigateUp() {
+        return navController.navigateUp();
     }
 }
